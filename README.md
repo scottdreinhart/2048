@@ -209,7 +209,7 @@ Capacitor wraps the same Vite `dist/` output in native Android and iOS app shell
 
 ## Architecture
 
-This project enforces nine complementary design patterns:
+This project enforces nine complementary design principles:
 
 1. **CLEAN Architecture** (Layer Separation)
    - `domain/` layer: Pure, framework-agnostic logic (zero React dependencies)
