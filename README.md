@@ -21,6 +21,9 @@ Slide numbered tiles on a 4×4 grid; merge matching tiles to reach 2048
 Unauthorized reproduction, distribution, or use is strictly prohibited.
 See [LICENSE](LICENSE) file for complete terms and conditions.
 
+> [!CAUTION]
+> **LICENSE TRANSITION PLANNED** — This project is currently proprietary. The license will change to open source once the project has reached a suitable state to allow for it.
+
 [Project Structure](#project-structure) · [Getting Started](#getting-started) · [Tech Stack](#tech-stack) · [Contributing](#contributing)
 
 ## Project Structure
