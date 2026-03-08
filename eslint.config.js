@@ -1,4 +1,5 @@
 import js from '@eslint/js'
+import tseslint from 'typescript-eslint'
 import reactPlugin from 'eslint-plugin-react'
 import reactHooksPlugin from 'eslint-plugin-react-hooks'
 import prettierConfig from 'eslint-config-prettier'
@@ -10,48 +11,17 @@ export default [
   {
     files: ['src/**/*.{ts,tsx}'],
     plugins: {
+      '@typescript-eslint': tseslint.plugin,
       react: reactPlugin,
       'react-hooks': reactHooksPlugin,
       boundaries,
     },
     languageOptions: {
+      parser: tseslint.parser,
       ecmaVersion: 'latest',
       sourceType: 'module',
       parserOptions: {
         ecmaFeatures: { jsx: true },
-      },
-      globals: {
-        document: 'readonly',
-        window: 'readonly',
-        console: 'readonly',
-        setTimeout: 'readonly',
-        clearTimeout: 'readonly',
-        setInterval: 'readonly',
-        clearInterval: 'readonly',
-        requestAnimationFrame: 'readonly',
-        cancelAnimationFrame: 'readonly',
-        Math: 'readonly',
-        localStorage: 'readonly',
-        navigator: 'readonly',
-        Worker: 'readonly',
-        URL: 'readonly',
-        self: 'readonly',
-        AudioContext: 'readonly',
-        OscillatorNode: 'readonly',
-        GainNode: 'readonly',
-        HTMLElement: 'readonly',
-        HTMLCanvasElement: 'readonly',
-        Event: 'readonly',
-        KeyboardEvent: 'readonly',
-        MouseEvent: 'readonly',
-        TouchEvent: 'readonly',
-        MediaQueryList: 'readonly',
-        MutationObserver: 'readonly',
-        ResizeObserver: 'readonly',
-        IntersectionObserver: 'readonly',
-        fetch: 'readonly',
-        performance: 'readonly',
-        queueMicrotask: 'readonly',
       },
     },
     settings: {
@@ -73,16 +43,15 @@ export default [
       'react-hooks/rules-of-hooks': 'error',
       'react-hooks/exhaustive-deps': 'warn',
 
-      // ── General ──
-      'no-unused-vars': ['warn', { argsIgnorePattern: '^_', varsIgnorePattern: '^[A-Z]' }],
+      // ── General — disable base rules in favor of TypeScript-aware equivalents ──
+      'no-undef': 'off',
+      'no-unused-vars': 'off',
+      '@typescript-eslint/no-unused-vars': ['warn', { argsIgnorePattern: '^_', varsIgnorePattern: '^[A-Z_]' }],
       'no-console': 'warn',
       'prefer-const': 'error',
       'no-var': 'error',
 
       // ── CLEAN Architecture Boundaries ──
-      // domain/ must NOT import from app/, ui/, or workers/
-      // app/ may import domain/ but NOT ui/
-      // ui/ may import domain/ and app/ (hooks)
       'boundaries/element-types': [
         'error',
         {
@@ -99,6 +68,6 @@ export default [
     },
   },
   {
-    ignores: ['dist/', 'node_modules/'],
+    ignores: ['dist/', 'node_modules/', 'electron/', 'android/'],
   },
 ]

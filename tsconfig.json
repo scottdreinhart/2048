@@ -17,12 +17,11 @@
     "resolveJsonModule": true,
     "forceConsistentCasingInFileNames": true,
     "types": ["vite/client"],
-    "baseUrl": ".",
     "paths": {
-      "@/*": ["src/*"],
-      "@/domain/*": ["src/domain/*"],
-      "@/app/*": ["src/app/*"],
-      "@/ui/*": ["src/ui/*"]
+      "@/*": ["./src/*"],
+      "@/domain/*": ["./src/domain/*"],
+      "@/app/*": ["./src/app/*"],
+      "@/ui/*": ["./src/ui/*"]
     }
   },
   "include": ["src", "src/vite-env.d.ts"]
