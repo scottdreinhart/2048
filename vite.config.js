@@ -1,6 +1,7 @@
 import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react'
 import { visualizer } from 'rollup-plugin-visualizer'
+import path from 'path'
 
 export default defineConfig({
   base: './',
@@ -13,6 +14,14 @@ export default defineConfig({
       open: false,
     }),
   ],
+  resolve: {
+    alias: {
+      '@': path.resolve(__dirname, 'src'),
+      '@/domain': path.resolve(__dirname, 'src/domain'),
+      '@/app': path.resolve(__dirname, 'src/app'),
+      '@/ui': path.resolve(__dirname, 'src/ui'),
+    },
+  },
   build: {
     target: 'es2020',
     cssTarget: 'es2020',
