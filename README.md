@@ -33,18 +33,43 @@ src/
 ├── domain/                           # Pure, framework-agnostic logic
 │   ├── types.ts                      # Central type definitions
 │   ├── constants.ts                  # Game constants
-│   └── rules.ts                      # Game rules & win/loss detection
+│   ├── board.ts                      # Board operations
+│   ├── rules.ts                      # Game rules & win/loss detection
+│   ├── ai.ts                         # CPU move selection algorithms
+│   ├── themes.ts                     # Color theme, mode & colorblind definitions
+│   └── index.ts                      # Barrel export — re-exports all domain modules
 ├── app/
+│   ├── haptics.ts                    # Vibration API wrapper (tick, tap, heavy)
 │   ├── sounds.ts                     # Web Audio API synthesized SFX
-│   ├── storageService.ts             # localStorage JSON wrapper
-│   └── use*.ts                       # React hooks for state & effects
+│   ├── storageService.ts             # localStorage JSON wrapper (load<T>/save/remove)
+│   ├── ThemeContext.tsx              # React Context provider for theme/mode/colorblind settings
+│   ├── SoundContext.tsx              # React Context provider for sound state + guarded playback
+│   ├── useTheme.ts                   # Theme / mode / colorblind persistence + DOM sync
+│   ├── useSoundEffects.ts            # Sound toggle + play functions (respects reduced-motion)
+│   ├── use*.ts                       # Additional React hooks for state & effects
+│   └── index.ts                      # Barrel export — re-exports all app hooks and services
 ├── ui/
-│   ├── atoms/                        # Smallest UI building blocks
-│   ├── molecules/                    # Composed UI components
-│   └── organisms/                    # Top-level page components
+│   ├── atoms/
+│   │   ├── ErrorBoundary.tsx         # React Error Boundary — crash isolation with fallback + retry
+│   │   └── index.ts                  # Barrel export — re-exports all atoms
+│   ├── molecules/
+│   │   └── index.ts                  # Barrel export — re-exports all molecules
+│   ├── organisms/
+│   │   ├── App.tsx                   # Top-level game component (pure composition)
+│   │   └── index.ts                  # Barrel export — re-exports all organisms
+│   ├── index.ts                      # Barrel export — re-exports all UI sub-layers
+│   ├── ui-constants.ts               # UI layout constants (sizes, breakpoints)
+│   └── utils/
+│       ├── cssModules.ts             # cx() conditional class binding utility
+│       └── index.ts                  # Barrel export — re-exports utilities
 ├── themes/                           # Lazy-loaded theme CSS chunks
-├── workers/                          # Web Workers for off-thread computation
-├── index.tsx                         # React entry point
+│   ├── highcontrast.css              # High-contrast theme (default)
+│   ├── ocean.css / sunset.css        # Additional color themes
+│   ├── forest.css / rose.css
+│   └── midnight.css
+├── workers/
+│   └── ai.worker.ts                  # Off-main-thread AI computation
+├── index.tsx                         # React entry point (ThemeProvider > SoundProvider > ErrorBoundary > App)
 └── styles.css                        # Global styles & CSS custom properties
 
 public/
@@ -62,9 +87,9 @@ electron/
 ├── main.js                           # Electron main process
 └── preload.js                        # Sandboxed context bridge
 
-tsconfig.json                         # TypeScript compiler configuration
-vite.config.js                        # Vite configuration
-eslint.config.js                      # ESLint flat config
+tsconfig.json                         # TypeScript config (strict mode + @/ path aliases)
+vite.config.js                        # Vite config + rollup-plugin-visualizer + @/ resolve aliases
+eslint.config.js                      # ESLint flat config (React + hooks + Prettier + boundary enforcement)
 .prettierrc                           # Prettier formatting rules
 .gitignore                            # Git ignore rules
 .nvmrc                                # Node.js version pin (v24)
@@ -184,22 +209,56 @@ Capacitor wraps the same Vite `dist/` output in native Android and iOS app shell
 
 ## Architecture
 
-This project enforces four complementary design patterns:
+This project enforces nine complementary design patterns:
 
 1. **CLEAN Architecture** (Layer Separation)
    - `domain/` layer: Pure, framework-agnostic logic (zero React dependencies)
    - `app/` layer: React hooks for state management & side effects
    - `ui/` layer: Presentational components (atoms → molecules → organisms)
+   - **Benefit**: Domain logic is testable, reusable, and framework-independent
 
 2. **Atomic Design** (Component Hierarchy)
    - Data flows unidirectionally: **Hooks → Organism → Molecules → Atoms**
    - Organisms contain zero inline markup; all composition happens in JSX
+   - **Benefit**: Components are predictable, composable, and reusable across contexts
 
 3. **SOLID Principles** (Code-Level Design)
    - Single Responsibility, Open/Closed, Liskov Substitution, Interface Segregation, Dependency Inversion
+   - **Benefit**: Code is maintainable, testable, and resistant to side effects
 
 4. **DRY Principle** (No Duplication)
    - Constants extracted to single sources; reusable hooks eliminate component duplication
+   - **Benefit**: Changes propagate consistently; less code to maintain
+
+5. **Import Boundary Enforcement** (`eslint-plugin-boundaries`)
+   - `domain/` → may only import from `domain/` (zero framework deps)
+   - `app/` → may import `domain/` + `app/` (never `ui/`)
+   - `ui/` → may import `domain/`, `app/`, and `ui/` (full downstream access)
+   - `workers/` → may only import `domain/` (pure computation)
+   - `themes/` → may not import anything (pure CSS data)
+   - **Benefit**: CLEAN layer violations are caught at lint time, not at code review
+
+6. **Path Aliases** (`@/domain`, `@/app`, `@/ui`)
+   - Configured in `tsconfig.json` (`paths`) and `vite.config.js` (`resolve.alias`)
+   - Eliminates fragile `../../` relative imports across layers
+   - **Benefit**: Imports are self-documenting (`@/domain/rules` vs `../../domain/rules`) and resilient to file moves
+
+7. **Barrel Exports** (`index.ts` per directory)
+   - Each layer exposes a single public API via its barrel file
+   - Internal module structure can change without breaking consumers
+   - **Benefit**: Explicit public APIs; refactoring internals doesn't cascade import changes
+
+8. **React Error Boundaries** (Crash Isolation)
+   - `ErrorBoundary` component wraps the game at the organism level
+   - Catches render errors and displays a themed fallback UI with a retry button
+   - Prevents a single component crash from taking down the entire app
+   - **Benefit**: Graceful degradation — users see an actionable error, not a white screen
+
+9. **React Context for Dependency Injection** (ThemeProvider + SoundProvider)
+   - `ThemeProvider` provides theme state to the entire tree via React Context
+   - `SoundProvider` provides sound state + guarded play functions via React Context
+   - Both wired at the root in `index.tsx`: `ThemeProvider > SoundProvider > ErrorBoundary > App`
+   - **Benefit**: Any component can access theme or sound state without prop drilling
 
 ## Device Compatibility
 
