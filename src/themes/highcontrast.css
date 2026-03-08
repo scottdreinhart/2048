@@ -1,0 +1,6 @@
+/* High-contrast theme (default) */
+[data-theme='highcontrast'] {
+  --bg: #0a0a0a;
+  --fg: #f0f0f0;
+  --accent: #ffcc00;
+}

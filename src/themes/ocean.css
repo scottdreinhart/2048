@@ -1,0 +1,6 @@
+/* Ocean theme */
+[data-theme='ocean'] {
+  --bg: #0d1b2a;
+  --fg: #e0e1dd;
+  --accent: #00b4d8;
+}

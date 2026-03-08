@@ -1,0 +1,6 @@
+/* Forest theme */
+[data-theme='forest'] {
+  --bg: #0b1a0b;
+  --fg: #d4e7c5;
+  --accent: #4caf50;
+}
