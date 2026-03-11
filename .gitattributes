@@ -1,0 +1,22 @@
+# ── Line ending normalization ──────────────────────────────────────
+* text=auto
+
+# Force LF for shell scripts (must work in WSL/Linux)
+*.sh text eol=lf
+
+# Force CRLF for Windows batch files
+*.bat text eol=crlf
+
+# ── Binary files ──────────────────────────────────────────────────
+*.png binary
+*.wasm binary
+
+# ── GitHub Linguist overrides ─────────────────────────────────────
+# Classify AssemblyScript sources as WebAssembly
+assembly/**/*.ts linguist-language=WebAssembly
+
+# Classify the generated WASM base64 module as WebAssembly (not TypeScript)
+src/wasm/ai-wasm.ts linguist-language=WebAssembly
+
+# Hide lock file from diffs and language stats
+pnpm-lock.yaml linguist-generated
