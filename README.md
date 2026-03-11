@@ -3,6 +3,8 @@
 [![React](https://img.shields.io/badge/React-19-61DAFB?logo=react&logoColor=white)](https://github.com/facebook/react)
 [![Vite](https://img.shields.io/badge/Vite-7-646CFF?logo=vite&logoColor=white)](https://github.com/vitejs/vite)
 [![TypeScript](https://img.shields.io/badge/TypeScript-5.9-3178C6?logo=typescript&logoColor=white)](https://github.com/microsoft/TypeScript)
+[![AssemblyScript](https://img.shields.io/badge/AssemblyScript-0.28-007AAC?logo=assemblyscript&logoColor=white)](https://github.com/AssemblyScript/assemblyscript)
+[![WebAssembly](https://img.shields.io/badge/WebAssembly-AI_Engine-654FF0?logo=webassembly&logoColor=white)](https://webassembly.org/)
 [![CSS Modules](https://img.shields.io/badge/CSS_Modules-scoped-1572B6?logo=cssmodules&logoColor=white)](https://github.com/css-modules/css-modules)
 [![Electron](https://img.shields.io/badge/Electron-40-47848F?logo=electron&logoColor=white)](https://github.com/electron/electron)
 [![Capacitor](https://img.shields.io/badge/Capacitor-8-119EFF?logo=capacitor&logoColor=white)](https://github.com/ionic-team/capacitor)
