@@ -37,6 +37,8 @@ src/
 │   ├── rules.ts                      # Game rules & win/loss detection
 │   ├── ai.ts                         # CPU move selection algorithms
 │   ├── themes.ts                     # Color theme, mode & colorblind definitions
+│   ├── layers.ts                     # LayerManager — visual layer stack config (opacity, blend, visibility)
+│   ├── sprites.ts                    # SpriteManager — centralized sprite/asset registry per theme
 │   └── index.ts                      # Barrel export — re-exports all domain modules
 ├── app/
 │   ├── haptics.ts                    # Vibration API wrapper (tick, tap, heavy)
@@ -67,6 +69,8 @@ src/
 │   ├── ocean.css / sunset.css        # Additional color themes
 │   ├── forest.css / rose.css
 │   └── midnight.css
+├── wasm/
+│   └── ai-wasm.ts                    # WASM AI engine loader + fallback
 ├── workers/
 │   └── ai.worker.ts                  # Off-main-thread AI computation
 ├── index.tsx                         # React entry point (ThemeProvider > SoundProvider > ErrorBoundary > App)
@@ -90,6 +94,14 @@ electron/
 tsconfig.json                         # TypeScript config (strict mode + @/ path aliases)
 vite.config.js                        # Vite config + rollup-plugin-visualizer + @/ resolve aliases
 eslint.config.js                      # ESLint flat config (React + hooks + Prettier + boundary enforcement)
+assembly/
+├── tsconfig.json                      # AssemblyScript compiler config
+└── index.ts                          # WASM AI entry point (game-specific stub)
+scripts/
+└── build-wasm.js                     # WASM build script (AssemblyScript → .wasm → base64)
+.gitattributes                        # Line endings, binary rules, Linguist overrides
+.env.nocache                          # VITE_NOCACHE flag for cache-busting during development
+.npmrc                                # pnpm config (save-exact, auto-install-peers)
 .prettierrc                           # Prettier formatting rules
 .gitignore                            # Git ignore rules
 .nvmrc                                # Node.js version pin (v24)
