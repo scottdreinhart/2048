@@ -1,68 +1,30 @@
-import type { ColorblindMode, ColorTheme, Mode } from '@/domain/themes'
-import { DEFAULT_SETTINGS } from '@/domain/themes'
-import type { ReactNode } from 'react'
-import { createContext, useCallback, useContext, useEffect, useState } from 'react'
-import { load, save } from './storageService'
+import { createContext, type ReactNode, useContext } from 'react'
 
-interface ThemeContextValue {
-  colorTheme: ColorTheme
-  mode: Mode
-  colorblind: ColorblindMode
-  setColorTheme: (theme: ColorTheme) => void
-  setMode: (mode: Mode) => void
-  setColorblind: (mode: ColorblindMode) => void
-}
+import useTheme from './useTheme'
 
-const ThemeContext = createContext<ThemeContextValue | null>(null)
+type UseThemeReturn = ReturnType<typeof useTheme>
 
-const STORAGE_KEY = 'theme-settings'
-
-interface ThemeSettings {
-  colorTheme: ColorTheme
-  mode: Mode
-  colorblind: ColorblindMode
-}
+const ThemeContext = createContext<UseThemeReturn | null>(null)
 
 /**
- * ThemeProvider — provides theme, mode, and colorblind settings via React Context.
- * Persists to localStorage and syncs data attributes to the document root.
+ * ThemeProvider — provides theme settings via React Context, wrapping
+ * the existing useTheme hook. Place at the top of the component tree.
  *
- * Wrap at the top of the component tree (in index.tsx or App):
+ * Usage:
  *   <ThemeProvider><App /></ThemeProvider>
+ *
+ *   const { settings, setColorTheme } = useThemeContext()
  */
 export function ThemeProvider({ children }: { children: ReactNode }) {
-  const stored = load<ThemeSettings>(STORAGE_KEY, DEFAULT_SETTINGS)
-  const [colorTheme, setColorThemeState] = useState<ColorTheme>(stored.colorTheme)
-  const [mode, setModeState] = useState<Mode>(stored.mode)
-  const [colorblind, setColorblindState] = useState<ColorblindMode>(stored.colorblind)
-
-  // Sync to DOM
-  useEffect(() => {
-    const root = document.documentElement
-    root.setAttribute('data-theme', colorTheme)
-    root.setAttribute('data-mode', mode)
-    root.setAttribute('data-colorblind', colorblind)
-    save(STORAGE_KEY, { colorTheme, mode, colorblind })
-  }, [colorTheme, mode, colorblind])
-
-  const setColorTheme = useCallback((t: ColorTheme) => setColorThemeState(t), [])
-  const setMode = useCallback((m: Mode) => setModeState(m), [])
-  const setColorblind = useCallback((c: ColorblindMode) => setColorblindState(c), [])
-
-  return (
-    <ThemeContext.Provider
-      value={{ colorTheme, mode, colorblind, setColorTheme, setMode, setColorblind }}
-    >
-      {children}
-    </ThemeContext.Provider>
-  )
+  const theme = useTheme()
+  return <ThemeContext.Provider value={theme}>{children}</ThemeContext.Provider>
 }
 
 /**
  * useThemeContext — access theme settings anywhere in the tree.
  * Must be called inside a <ThemeProvider>.
  */
-export function useThemeContext(): ThemeContextValue {
+export function useThemeContext(): UseThemeReturn {
   const ctx = useContext(ThemeContext)
   if (!ctx) {
     throw new Error('useThemeContext must be used within a <ThemeProvider>')
