@@ -1,5 +1,5 @@
-import { Component } from 'react'
 import type { ErrorInfo, ReactNode } from 'react'
+import { Component } from 'react'
 
 interface ErrorBoundaryProps {
   /** Content to render when no error */
@@ -36,7 +36,6 @@ export class ErrorBoundary extends Component<ErrorBoundaryProps, ErrorBoundarySt
   }
 
   componentDidCatch(error: Error, info: ErrorInfo): void {
-    // eslint-disable-next-line no-console
     console.error('[ErrorBoundary] Caught error:', error, info.componentStack)
   }
 

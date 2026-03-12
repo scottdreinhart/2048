@@ -1,5 +1,5 @@
-import { createContext, useContext, useState, useCallback, useRef } from 'react'
 import type { ReactNode } from 'react'
+import { createContext, useCallback, useContext, useRef, useState } from 'react'
 import { load, save } from './storageService'
 
 interface SoundContextValue {
@@ -70,6 +70,8 @@ export function SoundProvider({ children }: { children: ReactNode }) {
  */
 export function useSoundContext(): SoundContextValue {
   const ctx = useContext(SoundContext)
-  if (!ctx) throw new Error('useSoundContext must be used within a <SoundProvider>')
+  if (!ctx) {
+    throw new Error('useSoundContext must be used within a <SoundProvider>')
+  }
   return ctx
 }

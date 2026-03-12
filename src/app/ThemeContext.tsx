@@ -1,7 +1,7 @@
-import { createContext, useContext, useState, useEffect, useCallback } from 'react'
-import type { ReactNode } from 'react'
+import type { ColorblindMode, ColorTheme, Mode } from '@/domain/themes'
 import { DEFAULT_SETTINGS } from '@/domain/themes'
-import type { ColorTheme, Mode, ColorblindMode } from '@/domain/themes'
+import type { ReactNode } from 'react'
+import { createContext, useCallback, useContext, useEffect, useState } from 'react'
 import { load, save } from './storageService'
 
 interface ThemeContextValue {
@@ -64,6 +64,8 @@ export function ThemeProvider({ children }: { children: ReactNode }) {
  */
 export function useThemeContext(): ThemeContextValue {
   const ctx = useContext(ThemeContext)
-  if (!ctx) throw new Error('useThemeContext must be used within a <ThemeProvider>')
+  if (!ctx) {
+    throw new Error('useThemeContext must be used within a <ThemeProvider>')
+  }
   return ctx
 }

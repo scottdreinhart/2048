@@ -1,9 +1,9 @@
-import React from 'react'
-import ReactDOM from 'react-dom/client'
-import { ThemeProvider } from '@/app/ThemeContext'
 import { SoundProvider } from '@/app/SoundContext'
+import { ThemeProvider } from '@/app/ThemeContext'
 import { ErrorBoundary } from '@/ui/atoms/ErrorBoundary'
 import App from '@/ui/organisms/App'
+import React from 'react'
+import ReactDOM from 'react-dom/client'
 import './styles.css'
 
 ReactDOM.createRoot(document.getElementById('root')!).render(

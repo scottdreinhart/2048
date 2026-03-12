@@ -141,70 +141,16 @@ pnpm build:preview
 ```bash
 # Individual tools
 pnpm lint           # ESLint — check for issues
-pnpm lint:fix       # ESLint — auto-fix issues
-pnpm format         # Prettier — format all source files
+pnpm eslint:fix     # ESLint — auto-fix issues
+pnpm prettier:fix   # Prettier — format all source files
 pnpm format:check   # Prettier — check formatting without writing
 pnpm typecheck      # TypeScript type check (tsc --noEmit)
 
 # Chains
 pnpm check          # lint + format:check + typecheck in one pass (quality gate)
-pnpm fix            # lint:fix + format in one pass (auto-fix everything)
+pnpm fix            # eslint:fix + prettier:fix in one pass (auto-fix everything)
 pnpm validate       # check + build — full pre-push validation
 ```
-
-### Cleanup & Maintenance
-
-```bash
-# Clean
-pnpm clean          # wipe dist/ and release/ build outputs
-pnpm clean:node     # delete node_modules only
-pnpm clean:all      # nuclear — dist/ + release/ + node_modules/
-
-# Fresh start
-pnpm reinstall      # clean:all + pnpm install
-```
-
-### Electron Desktop App
-
-```bash
-# Development: launches Vite + Electron together
-pnpm electron:dev
-
-# Preview production build in Electron (build + launch)
-pnpm electron:preview
-
-# Production build: creates distributable for current platform in release/
-pnpm electron:build
-
-# Platform-specific builds
-pnpm electron:build:win     # Windows .exe
-pnpm electron:build:linux   # Linux .AppImage
-pnpm electron:build:mac     # macOS .dmg
-```
-
-Electron wraps the same web app in a native desktop window. In dev mode it connects to the Vite dev server (`localhost:5173`); in production it loads the built `dist/` files directly.
-
-### Capacitor Mobile App
-
-```bash
-# Initialize native platforms (one-time setup)
-pnpm cap:init:android       # Add Android project
-pnpm cap:init:ios            # Add iOS project
-
-# Build web app + sync to native projects
-pnpm cap:sync
-
-# Open native IDE
-pnpm cap:open:android        # Open in Android Studio
-pnpm cap:open:ios            # Open in Xcode
-
-# Run on connected device/emulator
-pnpm cap:run:android         # Deploy to Android device
-pnpm cap:run:ios             # Deploy to iOS device
-```
-
-Capacitor wraps the same Vite `dist/` output in native Android and iOS app shells. The web code runs in a native WebView — no code changes needed.
-
 ## Tech Stack
 
 | Technology | Version | Purpose |
@@ -298,18 +244,21 @@ This project enforces nine complementary design principles:
 - [ ] **Theme system** — multiple color themes with light/dark/system mode + colorblind presets
 - [ ] **Sound effects** — Web Audio API synthesized SFX + background music
 
-### Code Quality & Testing
+### Code Quality
 
-- [ ] **Unit tests** — domain functions are pure and test-ready; add Vitest or Jest suite
-- [ ] **Component tests** — React Testing Library tests for UI components
-- [ ] **Integration / E2E tests** — Playwright or Cypress for full game-flow verification
+```bash
+# Individual tools
+pnpm lint           # ESLint — check for issues
+pnpm eslint:fix     # ESLint — auto-fix issues
+pnpm prettier:fix   # Prettier — format all source files
+pnpm format:check   # Prettier — check formatting without writing
+pnpm typecheck      # TypeScript type check (tsc --noEmit)
 
-### DevOps & Deployment
-
-- [ ] **CI/CD pipeline** — GitHub Actions workflow for lint → test → build → deploy
-- [ ] **GitHub Pages / Vercel deploy** — auto-deploy `dist/` on push to `main`
-- [ ] **Custom app icons** — generate PNG icons from SVG for Electron builds and mobile
-
+# Chains
+pnpm check          # lint + format:check + typecheck in one pass (quality gate)
+pnpm fix            # eslint:fix + prettier:fix in one pass (auto-fix everything)
+pnpm validate       # check + build — full pre-push validation
+```
 ## Future Improvements
 
 The following monetization and sustainability strategies are under consideration. Each model is designed to preserve the free-to-play core experience while introducing optional revenue streams that fund ongoing development, server infrastructure, and cross-platform maintenance.
@@ -380,6 +329,7 @@ All games in this portfolio share the same React + Vite + TypeScript + CLEAN arc
 | **[Nim](https://github.com/scottdreinhart/nim)** | Players take turns removing objects from piles; last to take loses | Simpler — minimal UI, pure strategy |
 | **[Hangman](https://github.com/scottdreinhart/hangman)** | Guess letters to reveal a hidden word before the stick figure completes | Similar — alphabet grid + SVG drawing |
 | **[Memory / Concentration](https://github.com/scottdreinhart/memory-game)** | Flip cards to find matching pairs on a grid | Similar — grid + flip animation |
+| **[2048](https://github.com/scottdreinhart/2048)** | Slide numbered tiles on a 4×4 grid; merge matching tiles to reach 2048 | Slightly higher — swipe input + merge logic |
 | **[Reversi (Othello)](https://github.com/scottdreinhart/reversi)** | Place discs to flip opponent's pieces; most discs wins | Moderately higher — flip-chain logic + AI |
 | **[Checkers](https://github.com/scottdreinhart/checkers)** | Classic diagonal-move capture board game | Higher — move validation + multi-jump |
 | **[Battleship](https://github.com/scottdreinhart/battleship)** | Place ships on a grid, take turns guessing opponent locations | Moderately higher — two-board UI + ship placement |
@@ -387,6 +337,15 @@ All games in this portfolio share the same React + Vite + TypeScript + CLEAN arc
 | **[Monchola](https://github.com/scottdreinhart/monchola)** | Traditional dice/board race game with capture mechanics | Similar — dice roll + board path + capture rules |
 | **[Rock Paper Scissors](https://github.com/scottdreinhart/rock-paper-scissors)** | Best-of-N rounds against the CPU with hand animations | Simpler — minimal state, animation-focused |
 | **[Minesweeper](https://github.com/scottdreinhart/minesweeper)** | Reveal cells on a minefield grid without detonating hidden mines | Moderately higher — flood-fill reveal + flag logic |
+| **[Pig](https://github.com/scottdreinhart/pig)** | A jeopardy dice game where players roll a single die to accumulate points, but lose all points for the turn if they roll a 1 | Simpler — single die, push-your-luck logic |
+| **[Farkle](https://github.com/scottdreinhart/farkle)** | A scoring game where players roll six dice to build combinations; failure to score on a roll results in a "farkle" and loss of turn points | Moderately higher — multi-dice combo scoring |
+| **[Cee-lo](https://github.com/scottdreinhart/cee-lo)** | A gambling game using three dice where players win by rolling specific combinations like 4-5-6 or triples | Similar — combo detection + round resolution |
+| **[Ship, Captain, and Crew](https://github.com/scottdreinhart/ship-captain-crew)** | A fast-paced game where players must roll a 6, 5, and 4 in sequence to qualify their remaining dice for scoring | Similar — sequential lock-in mechanic |
+| **[Liar's Dice](https://github.com/scottdreinhart/liars-dice)** | A bluffing game where players bid on the total number of dice of a certain value hidden under all players' cups | Higher — bluff AI + hidden information |
+| **[Bunco](https://github.com/scottdreinhart/bunco)** | A social game played in rounds where players earn points by rolling specific numbers matching the current round | Simpler — round-based target matching |
+| **[Mexico](https://github.com/scottdreinhart/mexico)** | A simple elimination game where players roll two dice and must match or beat the "leader's" score to stay in the round | Similar — elimination round logic |
+| **[Chō-han](https://github.com/scottdreinhart/cho-han)** | A traditional Japanese game where players bet on whether the sum of two hidden dice is even (Chō) or odd (Han) | Simpler — binary bet + reveal animation |
+| **[Chicago](https://github.com/scottdreinhart/chicago)** | An 11-round game where players score by rolling a sum that matches the specific target number for that round | Similar — round-target scoring system |
 
 ## Contributing
 

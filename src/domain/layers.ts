@@ -61,7 +61,9 @@ const THEME_LAYER_OVERRIDES: Readonly<Record<string, Partial<LayerStack>>> = {
 /** Merge default stack with per-theme overrides */
 export const getLayerStack = (themeId: string): LayerStack => {
   const overrides = THEME_LAYER_OVERRIDES[themeId]
-  if (!overrides) return DEFAULT_LAYER_STACK
+  if (!overrides) {
+    return DEFAULT_LAYER_STACK
+  }
 
   return {
     boardImage: overrides.boardImage ?? DEFAULT_LAYER_STACK.boardImage,
