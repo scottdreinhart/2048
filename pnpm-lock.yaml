@@ -31,7 +31,7 @@ importers:
         specifier: ^8.2.0
         version: 8.2.0
       '@commitlint/config-conventional':
-        specifier: ^19.8.1
+        specifier: ^19.5.0
         version: 19.8.1
       '@eslint/js':
         specifier: ^10.0.1
