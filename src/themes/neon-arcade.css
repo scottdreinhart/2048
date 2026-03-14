@@ -1,0 +1,5 @@
+/* Neon Arcade — electric cyan arcade glow */
+[data-theme='neon-arcade'] {
+  --bg: #07111f;
+  --text: #39d0ff;
+}

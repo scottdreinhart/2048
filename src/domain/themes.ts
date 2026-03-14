@@ -6,13 +6,14 @@
 import type { ColorblindMode, ColorTheme, ThemeSettings } from './types.ts'
 
 export const COLOR_THEMES: readonly ColorTheme[] = [
-  { id: 'classic', label: 'Classic', accent: '#667eea' },
-  { id: 'ocean', label: 'Ocean', accent: '#0ea5e9' },
-  { id: 'sunset', label: 'Sunset', accent: '#f97316' },
-  { id: 'forest', label: 'Forest', accent: '#22c55e' },
-  { id: 'rose', label: 'Rose', accent: '#f43f5e' },
-  { id: 'midnight', label: 'Midnight', accent: '#a78bfa' },
-  { id: 'highcontrast', label: 'High Contrast', accent: '#ffcc00' },
+  { id: 'chiba-city', label: 'Chiba City', accent: '#00ff41' },
+  { id: 'neon-core', label: 'Neon Core', accent: '#667eea' },
+  { id: 'neon-arcade', label: 'Neon Arcade', accent: '#0ea5e9' },
+  { id: 'night-district', label: 'Night District', accent: '#f97316' },
+  { id: 'gridline', label: 'Gridline', accent: '#22c55e' },
+  { id: 'vaporwave', label: 'Vaporwave', accent: '#f43f5e' },
+  { id: 'synthwave', label: 'Synthwave', accent: '#a78bfa' },
+  { id: 'high-contrast', label: 'High Contrast', accent: '#ffcc00' },
 ]
 
 export const MODES = ['system', 'light', 'dark'] as const
@@ -27,7 +28,7 @@ export const COLORBLIND_MODES: readonly ColorblindMode[] = [
 ]
 
 export const DEFAULT_SETTINGS: ThemeSettings = {
-  colorTheme: 'highcontrast',
+  colorTheme: 'chiba-city',
   mode: 'system',
   colorblind: 'none',
 }

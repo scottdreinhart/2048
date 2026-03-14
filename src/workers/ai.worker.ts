@@ -3,8 +3,7 @@
  * Keeps UI at 60 FPS during complex AI calculations.
  */
 
-self.onmessage = (e: MessageEvent) => {
-  const { board } = e.data
+self.onmessage = (_e: MessageEvent) => {
   // AI computation here
   self.postMessage({ move: -1 })
 }

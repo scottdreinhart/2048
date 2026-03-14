@@ -1,0 +1,5 @@
+/* Gridline — matrix-grid neon green */
+[data-theme='gridline'] {
+  --bg: #050b12;
+  --text: #7bff5b;
+}

@@ -21,7 +21,7 @@ let activeThemeStyle: HTMLStyleElement | null = null
 const preloadedThemes = new Map<string, string>()
 
 const preloadTheme = async (themeId: string): Promise<void> => {
-  if (preloadedThemes.has(themeId) || themeId === 'classic') {
+  if (preloadedThemes.has(themeId) || themeId === 'neon-core') {
     return
   }
 
@@ -38,7 +38,7 @@ const preloadTheme = async (themeId: string): Promise<void> => {
 
 const preloadAllThemes = (): void => {
   COLOR_THEMES.forEach(({ id }) => {
-    if (id !== 'classic') {
+    if (id !== 'neon-core') {
       preloadTheme(id).catch(() => {})
     }
   })
@@ -49,7 +49,7 @@ const applyThemeCSS = async (themeId: string): Promise<void> => {
     activeThemeStyle.remove()
     activeThemeStyle = null
   }
-  if (themeId === 'classic') {
+  if (themeId === 'neon-core') {
     return
   }
 

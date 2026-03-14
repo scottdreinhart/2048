@@ -40,3 +40,4 @@ ios/
 # Misc
 *.tgz
 .cache/
+.node-platform.md

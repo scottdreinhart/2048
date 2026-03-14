@@ -1,7 +1,7 @@
 # Capacitor Instructions
 
 > **Scope**: Capacitor mobile/tablet app development, native platform setup, and deployment.
-> Subordinate to `AGENTS.md` §5 (shell routing) and `01-build.instructions.md` for general build rules.
+> Subordinate to `AGENTS.md` §5 (shell routing).
 
 ---
 

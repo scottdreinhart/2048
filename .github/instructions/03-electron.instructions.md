@@ -1,7 +1,7 @@
 # Electron Instructions
 
 > **Scope**: Electron desktop app development, builds, preview, and platform-specific packaging.
-> Subordinate to `AGENTS.md` §5 (shell routing) and `01-build.instructions.md` for general build rules.
+> Subordinate to `AGENTS.md` §5 (shell routing).
 
 ---
 
