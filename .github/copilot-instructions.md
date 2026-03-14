@@ -1,4 +1,4 @@
-# Copilot Runtime Policy — 2048
+# Copilot Runtime Policy — Nim
 
 > **Authority**: This file is subordinate to `AGENTS.md`. If any rule here conflicts, `AGENTS.md` wins.
 
@@ -76,7 +76,7 @@ All UI components support 5 semantic device tiers using centralized `useResponsi
 
 ## Menu & Settings Architecture
 
-Applications implement a **dual-menu system**: in-app/in-game hamburger (quick access) + full-screen modal (comprehensive).
+Applications implement a **dual-menu system**: in-app hamburger (quick access) + full-screen modal (comprehensive).
 
 **Hamburger Menu Pattern:**
 - Portal-rendered dropdown (`createPortal()` to `document.body`)
@@ -119,10 +119,11 @@ Use **Android SDK** only for: Android Capacitor tasks
 
 All runtime decisions are subordinate to **AGENTS.md**. Refer to AGENTS.md for comprehensive governance including:
 
-- **§ 10**: SOLID Principles & Design Patterns — Single Responsibility, Open/Closed, Liskov, Interface Segregation, Dependency Inversion, patterns in use
+- **§ 4**: Path Discipline & Structure — 15 top-level directories, barrel pattern, file naming conventions, anti-patterns, scaling guidance
+- **§ 10**: SOLID Principles & Design Patterns — Single Responsibility, Open/Closed, Liskov, Interface Segregation, Dependency Inversion, DRY, SOC, ACID, CRUD, POLP, RBS; patterns, checklists
 - **§ 11**: Standard Application Shell Architecture — splash, landing, main content, results/history screens
 - **§ 12**: Responsive Design & Device-Aware UI Governance — 5-tier semantics, content density, touch optimization
-- **§ 13**: Menu & Settings Architecture Governance — hamburger menu, full-screen settings modal
+- **§ 13**: Menu & Settings Architecture Governance — hamburger menu, full-screen settings modal, dual-menu system, useDropdownBehavior hook, portal rendering, TicTacToe reference implementation
 - **§ 14**: Electron & Desktop Build Governance — electron/main.js, preload.js, platform targets, key dependencies
 - **§ 15**: Capacitor & Mobile Build Governance — iOS/Android scripts, environment routing, key dependencies
 - **§ 16**: WASM & AI Engine Governance — AssemblyScript, build pipeline, worker integration, anti-orphan-script policy
@@ -130,6 +131,8 @@ All runtime decisions are subordinate to **AGENTS.md**. Refer to AGENTS.md for c
 - **§ 18**: Scale-Aware AI Orchestration — three-tier decision tree, implementation structure, performance targets
 - **§ 19**: Input Controls & Action-Based Architecture — semantic actions, context-aware behavior, platform-specific requirements
 - **§ 20**: Build & Deployment Governance — script routing, output directories, cleanup, quality gates
+- **§ 21**: Detailed Project Structure & File Organization Governance — UI atomic design hierarchy (atoms/molecules/organisms), app layer organization, domain layer patterns, component file size, import validation, asset organization, type definitions, testing organization, checklists
+- **§ 22**: Project Build & Dependency Governance — 4 runtime deps, 34 dev deps (organized by category with official docs), 38 build scripts with shell routing, configuration file rules, linting/quality config, dependency update policy, guardrails
 
 ---
 

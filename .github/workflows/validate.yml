@@ -1,0 +1,155 @@
+name: Validate
+
+on:
+  push:
+    branches: [main, develop, alpha, beta]
+  pull_request:
+    branches: [main, develop, alpha, beta]
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+
+    strategy:
+      matrix:
+        node-version: [24.14.0]
+
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Install pnpm
+        uses: pnpm/action-setup@v2
+        with:
+          version: 10.31.0
+
+      - name: Setup Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ matrix.node-version }}
+          cache: 'pnpm'
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Lint
+        run: pnpm lint
+        continue-on-error: false
+
+      - name: Format Check
+        run: pnpm format:check
+        continue-on-error: false
+
+      - name: TypeScript Check
+        run: pnpm typecheck
+        continue-on-error: false
+
+      - name: Build
+        run: pnpm build
+        continue-on-error: false
+
+      - name: Tests
+        run: pnpm test
+        continue-on-error: false
+
+  # Separate job for Electron build (optional, Windows-only)
+  electron-build:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install pnpm
+        uses: pnpm/action-setup@v2
+        with:
+          version: 10.31.0
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 24.14.0
+          cache: 'pnpm'
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Build Electron (Linux)
+        run: pnpm electron:build:linux
+        continue-on-error: true
+
+    # Note: Windows and macOS builds require their respective runners
+    # Add them below when needed:
+    # - windows-latest for electron:build:win
+    # - macos-latest for electron:build:mac
+
+  # Capacitor sync check (mobile development)
+  capacitor-sync:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    if: github.event_name == 'push' && github.ref == 'refs/heads/develop'
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install pnpm
+        uses: pnpm/action-setup@v2
+        with:
+          version: 10.31.0
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 24.14.0
+          cache: 'pnpm'
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Capacitor Sync
+        run: pnpm cap:sync
+        continue-on-error: true
+
+  # WASM build check
+  wasm-build:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    if: github.event_name == 'push' && contains(github.ref, 'main') && !contains(github.event.head_commit.message, '[skip wasm]')
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install pnpm
+        uses: pnpm/action-setup@v2
+        with:
+          version: 10.31.0
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 24.14.0
+          cache: 'pnpm'
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Build WASM
+        run: pnpm wasm:build
+        continue-on-error: true
+
+  status-check:
+    runs-on: ubuntu-latest
+    needs: [validate]
+    if: always()
+    steps:
+      - name: Check validation status
+        run: |
+          if [ "${{ needs.validate.result }}" == "failure" ]; then
+            echo "❌ Validation failed"
+            exit 1
+          else
+            echo "✅ All validations passed"
+          fi

@@ -1,6 +1,6 @@
 # Architecture Governance: 07-Scale-Aware AI Orchestration
 
-> **Scope**: Repository-wide pattern for all game projects (30+ games)
+> **Scope**: Repository-wide pattern for all app projects (30+ apps)
 > **Authority**: Complements AGENTS.md and 01-build.instructions.md
 > **Stability**: Mature pattern (implemented in tictactoe, ready for all projects)
 
@@ -255,7 +255,7 @@ Add to principal rules:
 
 > **AI Orchestration Rule**
 > 
-> Every game project must implement both `computeAiMove` (sync) and `computeAiMoveAsync` (async):
+> Every app project must implement both `computeAiMove` (sync) and `computeAiMoveAsync` (async):
 > - Sync path must complete in <100ms
 > - Async path must complete in <500ms
 > - Both must produce identical results for deterministic AI
@@ -291,11 +291,10 @@ Add to principal rules:
 
 ## 10. References
 
-- [Tictactoe Implementation](../../../../tictactoe/src/app/aiEngine.ts)
-- [Tictactoe Tests](../../../../tictactoe/src/app/aiEngine.test.ts)
-- [Snake Pattern](../../../../snake/src/app/aiService.ts) (working reference)
 - [Web Workers MDN](https://developer.mozilla.org/en-US/docs/Web/API/Web_Workers_API)
 - [WASM Performance Tips](https://developer.chrome.com/blog/wasm-high-performance/)
+- [AssemblyScript Docs](https://www.assemblyscript.org)
+- [React useCallback Docs](https://react.dev/reference/react/useCallback)
 
 ---
 

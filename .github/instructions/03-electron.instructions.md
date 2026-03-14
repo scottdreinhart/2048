@@ -50,8 +50,8 @@ Defined in `package.json` `"build"` key (electron-builder config):
 
 | Field | Value |
 |---|---|
-| `appId` | `com.scottreinhart.twentyfortyeight` |
-| `productName` | `2048` |
+| `appId` | `com.scottreinhart.nim` |
+| `productName` | `Nim` |
 | `directories.output` | `release` |
 | `files` | `dist/**/*`, `electron/**/*` |
 
